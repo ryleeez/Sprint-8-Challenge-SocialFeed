@@ -11,10 +11,10 @@ any other `SourceFeed` instances
 
 ### Completion
 
-The `SourceFeed` should be allow Observer's to attach and detach, and it should
+The `SourceFeed` should allow Observers to attach and detach, and it should
 call each observer's `update` method from its `updateAll` method.
 
-Each `OUserFeed` observer instance should attach to the source feed and should 
+Each `OUserFeed` observer instance should attach to the `SourceFeed` and should 
 contain a list of `Post`s of only the users the user who owns the feed is following.
 
 All tests should pass after running the following command:

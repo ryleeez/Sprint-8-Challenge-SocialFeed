@@ -25,11 +25,8 @@ public class PostRepository {
     }
 
     public List<Post> addPost(Post post) {
-        //This logic is required during Mastery Task 1 and can be changed if needed after.
         List<Post> allPosts = new ArrayList<>();
         allPosts.add(post);
-
-        //TODO: Create and Add a new Post
 
         //TODO: Write the new Post data to the PostData.json file
 
