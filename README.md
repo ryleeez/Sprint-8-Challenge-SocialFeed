@@ -51,4 +51,4 @@ String to a `LocalDateTime` object.
 ## Completion
 
 A completed project will pass all tests:
-`./gradlew q clean :test`
+`./gradlew -q clean :test`
