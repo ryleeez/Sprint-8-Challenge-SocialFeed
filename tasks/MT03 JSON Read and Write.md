@@ -52,4 +52,4 @@ This repository should follow similar logic to the UserRepository.
 
 When you are done all of the tests in the `MT03_JsonReadWrite` class should pass.
 
-`./gradle -q clean :test --tests 'com.bloomtech.socialfeed.MT03*'`
+`./gradlew -q clean :test --tests 'com.bloomtech.socialfeed.MT03*'`
