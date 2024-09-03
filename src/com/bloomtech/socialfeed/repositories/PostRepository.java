@@ -1,5 +1,6 @@
 package com.bloomtech.socialfeed.repositories;
 
+import com.bloomtech.socialfeed.helpers.LocalDateTimeAdapter;
 import com.bloomtech.socialfeed.models.Post;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,14 +10,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PostRepository {
     private static final String POST_DATA_PATH = "src/resources/PostData.json";
+    private final Gson gson;
 
     public PostRepository() {
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .setPrettyPrinting()
+                .create();
+
     }
 
     public List<Post> getAllPosts() {
@@ -24,7 +32,7 @@ public class PostRepository {
         List<Post> allPosts = new ArrayList<>();
         try (FileReader reader = new FileReader(POST_DATA_PATH)) {
             Type postListType = new TypeToken<ArrayList<Post>>(){}.getType();
-            Gson gson = new Gson();
+
             allPosts = gson.fromJson(reader, postListType);
         } catch (IOException e) {
             // If file doesn't exist or is empty, return an empty list
@@ -46,7 +54,6 @@ public class PostRepository {
 
         //TODO: Write the new Post data to the PostData.json file
         try (FileWriter writer = new FileWriter(POST_DATA_PATH)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(allPosts, writer);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());

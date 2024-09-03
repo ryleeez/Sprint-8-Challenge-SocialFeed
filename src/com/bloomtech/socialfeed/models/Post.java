@@ -1,10 +1,11 @@
 package com.bloomtech.socialfeed.models;
 
-import com.google.gson.TypeAdapter;
+import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -55,17 +56,17 @@ public class Post {
                 '}';
     }
 
-    class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
-        private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
+    class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>,
+            JsonDeserializer<LocalDateTime> {
+        private final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         @Override
-        public void write(JsonWriter out, LocalDateTime value) throws IOException {
-            out.value(formatter.format(value));
+        public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(formatter.format(src));
         }
 
         @Override
-        public LocalDateTime read(JsonReader in) throws IOException {
-            return LocalDateTime.parse(in.nextString(), formatter);
+        public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return LocalDateTime.parse(json.getAsString(), formatter);
         }
     }
 }
