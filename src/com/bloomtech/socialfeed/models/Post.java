@@ -1,14 +1,22 @@
 package com.bloomtech.socialfeed.models;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Post {
     private String username;
-    private String postedon; //TODO: Convert type to LocalDateTime
+    private LocalDateTime postedon; //TODO: Convert type to LocalDateTime
     private String body;
 
     public Post() {
     }
 
-    public Post(String username, String postedon, String body) {
+    public Post(String username, LocalDateTime postedon, String body) {
         this.username = username;
         this.postedon = postedon;
         this.body = body;
@@ -22,11 +30,11 @@ public class Post {
         this.username = username;
     }
 
-    public String getPostedon() {
+    public LocalDateTime getPostedon() {
         return postedon;
     }
 
-    public void setPostedon(String postedon) {
+    public void setPostedon(LocalDateTime postedon) {
         this.postedon = postedon;
     }
 
@@ -45,5 +53,19 @@ public class Post {
                 ", postedon='" + postedon + '\'' +
                 ", body='" + body + '\'' +
                 '}';
+    }
+
+    class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
+        private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+        @Override
+        public void write(JsonWriter out, LocalDateTime value) throws IOException {
+            out.value(formatter.format(value));
+        }
+
+        @Override
+        public LocalDateTime read(JsonReader in) throws IOException {
+            return LocalDateTime.parse(in.nextString(), formatter);
+        }
     }
 }

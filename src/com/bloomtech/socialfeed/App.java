@@ -1,5 +1,6 @@
 package com.bloomtech.socialfeed;
 
+import com.bloomtech.socialfeed.observerpattern.OUserFeed;
 import com.bloomtech.socialfeed.observerpattern.SourceFeed;
 
 public class App {
@@ -11,4 +12,9 @@ public class App {
     public static void main(String[] args) {
         SeedData.run();
     }
+
+    static {
+        OUserFeed.setSourceFeed(sourceFeed);
+    }
+
 }
